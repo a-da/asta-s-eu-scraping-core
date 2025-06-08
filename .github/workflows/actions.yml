@@ -28,8 +28,8 @@ jobs:
       - run: source .venv/bin/activate && make update_pip_and_wheel install_dev
       - uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key32
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('pyproject.toml') }}
 
 #  coverage:
 #    needs: [setup]
@@ -48,22 +48,15 @@ jobs:
     needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
       - name: Restore cache
         uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key32
-      - run: ls -lah
-      - run: ls -lah .venv
-      - run: ls -lah .venv/bin
-      - run: ls -lah .venv/bin/mypy
-      - run: cat .venv/bin/mypy
-      - run: pwd
-      - run: source .venv/bin/activate && mypy --version || true
-      - run: source .venv/bin/activate && python -m mypy --version || true
-      - run: source .venv/bin/activate && make mypy
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('pyproject.toml') }}
+      - run: source .venv/bin/activate && make update_pip_and_wheel install_dev mypy
 
 #  pylint:
 #    needs: [ setup ]
