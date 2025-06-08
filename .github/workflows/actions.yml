@@ -2,7 +2,7 @@ name: On Feature Branch
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
     # Optionally, restrict to PRs targeting specific branches:
     # branches:
     #   - main
@@ -97,7 +97,7 @@ jobs:
       - run: source .venv/bin/activate && make pip-audit
 
   pypi_publish:
-    if: ${{ github.ref == 'refs/heads/release/0/0/latest' }}
+    if: ${{ github.ref == 'refs/heads/release/0/0/latest' && github.event.pull_request.merged == true }}
     needs:
       - coverage
       - pylint
