@@ -1,13 +1,17 @@
-#name: Custolint
+name: On Feature Branch
+
 on:
-  push:
-    #branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    # Optionally, restrict to PRs targeting specific branches:
+    # branches:
+    #   - main
+    #   - develop
+
 
 env:
   PYTHON_VERSION: 3.13.2
-  CIUR_VERSION: 0.2.2.dev8
+  ASTA_S_EU_SCRAPING_CORE_VERSION: 0.2.2.dev8
 
 jobs:
 
@@ -66,12 +70,40 @@ jobs:
           key: a-key2
       - run: source .venv/bin/activate && make pylint
 
+  isort:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: a-key2
+      - run: source .venv/bin/activate && ARGS=--check make isort
+
+  pip-audit:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: a-key2
+      - run: source .venv/bin/activate && make pip-audit
+
   pypi_publish:
-    if: ${{ github.ref == 'refs/heads/release/0/2/latest' }}
+    if: ${{ github.ref == 'refs/heads/release/0/0/latest' }}
     needs:
       - coverage
       - pylint
       - mypy
+      - isort
+      - pip-audit
     runs-on: ubuntu-latest
     environment:
       name: pypi
@@ -118,7 +150,7 @@ jobs:
           file: ./docker/prod/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: adan/ciur:${{ env.CIUR_VERSION }}
+          tags: adan/asta-s-eu-sraping_core:${{ env.CIUR_VERSION }}
           build-args: |
             CIUR_VERSION=${{ env.CIUR_VERSION }}
             PYTHON_VERSION=${{ env.PYTHON_VERSION }}
