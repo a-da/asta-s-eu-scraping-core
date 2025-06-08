@@ -1,6 +1,6 @@
 [project]
     name = "asta-s-eu-scraping-core"
-    version = "0.0.3"
+    version = "0.0.3.dev1"
     authors = [
         {name = "Andrei Danciuc", email = "python.ciur@gmail.com"},
     ]
