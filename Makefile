@@ -8,6 +8,10 @@ update_pip_and_wheel:
 install_dev:
 	pip install .'[dev,ui]'
 
+wheel:
+	pip install build twine
+	python -m build . --wheel
+
 isort:
 	isort src tests $$ARGS
 
