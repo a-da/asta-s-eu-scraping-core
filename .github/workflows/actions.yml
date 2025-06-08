@@ -55,6 +55,7 @@ jobs:
         with:
           path: .venv
           key: a-key32
+      - run: ls -lah
       - run: source .venv/bin/activate && make mypy
 
   pylint:
