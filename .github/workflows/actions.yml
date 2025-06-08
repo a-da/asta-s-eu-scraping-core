@@ -15,67 +15,36 @@ env:
 
 jobs:
 
-  setup:
+  coverage:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version-file: 'pyproject.toml'
           cache: 'pip' # caching pip dependencies
-
-      - run: python -m venv .venv
-      - run: source .venv/bin/activate && make update_pip_and_wheel install_dev
-      - uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('pyproject.toml') }}
-
-#  coverage:
-#    needs: [setup]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-python@v5
-#      - name: Restore cache
-#        uses: actions/cache@v3
-#        with:
-#          path: .venv
-#          key: a-key32
-#      - run: source .venv/bin/activate && make coverage
+      - run: make update_pip_and_wheel install_dev coverage
 
   mypy:
-    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version-file: 'pyproject.toml'
           cache: 'pip' # caching pip dependencies
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('pyproject.toml') }}
-      - run: python -m venv .venv
-      - run: source .venv/bin/activate && make update_pip_and_wheel install_dev mypy
+      - run: make update_pip_and_wheel install_dev mypy
 
-#  pylint:
-#    needs: [ setup ]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-python@v5
-#      - name: Restore cache
-#        uses: actions/cache@v3
-#        with:
-#          path: .venv
-#          key: a-key32
-#      - run: source .venv/bin/activate && make pylint
-#
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: 'pyproject.toml'
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev pylint
+
 #  isort:
 #    needs: [ setup ]
 #    runs-on: ubuntu-latest
