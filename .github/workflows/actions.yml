@@ -60,6 +60,9 @@ jobs:
       - run: ls -lah .venv/bin
       - run: ls -lah .venv/bin/mypy
       - run: cat .venv/bin/mypy
+      - run: pwd
+      - run: source .venv/bin/activate && mypy --version || true
+      - run: source .venv/bin/activate && python -m mypy --version || true
       - run: source .venv/bin/activate && make mypy
 
   pylint:
