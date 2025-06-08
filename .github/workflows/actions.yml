@@ -97,7 +97,7 @@ jobs:
       - run: source .venv/bin/activate && make pip-audit
 
   pypi_publish:
-    if: ${{ github.ref == 'refs/heads/release/0/2/latest' }}
+    if: ${{ github.ref == 'refs/heads/release/0/0/latest' }}
     needs:
       - coverage
       - pylint
