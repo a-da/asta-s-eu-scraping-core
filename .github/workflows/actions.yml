@@ -10,91 +10,65 @@ on:
 
 
 env:
-  PYTHON_VERSION: 3.13.2
-  ASTA_S_EU_SCRAPING_CORE_VERSION: 0.2.2.dev8
+  CIUR_VERSION: 0.2.2.dev8
+  ASTA_S_EU_SCRAPING_CORE_VERSION: 0.0.3
 
 jobs:
 
-  setup:
+  coverage:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version-file: 'pyproject.toml'
-
-      - run: python -m venv .venv
-      - run: source .venv/bin/activate && make update_pip_and_wheel install_dev
-      - uses: actions/cache@v3
-        with:
-          path: .venv
-          key: a-key2
-
-  coverage:
-    needs: [setup]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: a-key2
-      - run: source .venv/bin/activate && make coverage
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev
+      - run: make coverage
 
   mypy:
-    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - name: Restore cache
-        uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key2
-      - run: source .venv/bin/activate && make mypy
+          python-version-file: 'pyproject.toml'
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev
+      - run: make mypy
 
   pylint:
-    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - name: Restore cache
-        uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key2
-      - run: source .venv/bin/activate && make pylint
+          python-version-file: 'pyproject.toml'
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev
+      - run: make pylint
 
   isort:
-    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - name: Restore cache
-        uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key2
-      - run: source .venv/bin/activate && ARGS=--check make isort
+          python-version-file: 'pyproject.toml'
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev
+      - run: ARGS=--check make isort
 
   pip-audit:
-    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - name: Restore cache
-        uses: actions/cache@v3
         with:
-          path: .venv
-          key: a-key2
-      - run: source .venv/bin/activate && make pip-audit
+          python-version-file: 'pyproject.toml'
+          cache: 'pip' # caching pip dependencies
+      - run: make update_pip_and_wheel install_dev
+      - run: make pip-audit
 
   pypi_publish:
     if: ${{ github.ref == 'refs/heads/release/0/0/latest' && github.event.pull_request.merged == true }}
@@ -150,7 +124,7 @@ jobs:
           file: ./docker/prod/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: adan/asta-s-eu-sraping_core:${{ env.CIUR_VERSION }}
+          tags: adan/asta-s-eu-sraping_core:${{ env.ASTA_S_EU_SCRAPING_CORE_VERSION }}
           build-args: |
             CIUR_VERSION=${{ env.CIUR_VERSION }}
-            PYTHON_VERSION=${{ env.PYTHON_VERSION }}
+            ASTA_S_EU_SCRAPING_CORE_VERSION=${{ env.ASTA_S_EU_SCRAPING_CORE_VERSION }}
