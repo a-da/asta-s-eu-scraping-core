@@ -5,6 +5,9 @@ SHELL := /bin/bash -eu -o pipefail
 update_pip_and_wheel:
 	pip install -U pip wheel
 
+install_prod:
+	pip install .'[ui]'
+
 install_dev:
 	pip install .'[dev,ui]'
 
