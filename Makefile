@@ -11,6 +11,10 @@ install_prod:
 install_dev:
 	pip install .'[dev,ui]'
 
+wheel:
+	pip install build twine
+	python -m build . --wheel
+
 isort:
 	isort src tests $$ARGS
 
