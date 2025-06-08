@@ -10,8 +10,8 @@ on:
 
 
 env:
-  PYTHON_VERSION: 3.13.2
-  ASTA_S_EU_SCRAPING_CORE_VERSION: 0.2.2.dev8
+  CIUR_VERSION: 0.2.2.dev8
+  ASTA_S_EU_SCRAPING_CORE_VERSION: 0.0.2
 
 jobs:
 
@@ -150,7 +150,7 @@ jobs:
           file: ./docker/prod/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: adan/asta-s-eu-sraping_core:${{ env.CIUR_VERSION }}
+          tags: adan/asta-s-eu-sraping_core:${{ env.ASTA_S_EU_SCRAPING_CORE_VERSION }}
           build-args: |
             CIUR_VERSION=${{ env.CIUR_VERSION }}
-            PYTHON_VERSION=${{ env.PYTHON_VERSION }}
+            ASTA_S_EU_SCRAPING_CORE_VERSION=${{ env.ASTA_S_EU_SCRAPING_CORE_VERSION }}
