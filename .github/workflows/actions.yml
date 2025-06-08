@@ -29,7 +29,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
 
   coverage:
     needs: [setup]
@@ -41,7 +41,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
       - run: source .venv/bin/activate && make coverage
 
   mypy:
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
       - run: source .venv/bin/activate && make mypy
 
   pylint:
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
       - run: source .venv/bin/activate && make pylint
 
   isort:
@@ -80,7 +80,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
       - run: source .venv/bin/activate && ARGS=--check make isort
 
   pip-audit:
@@ -93,7 +93,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: a-key2
+          key: a-key32
       - run: source .venv/bin/activate && make pip-audit
 
   pypi_publish:
