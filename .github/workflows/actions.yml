@@ -1,9 +1,13 @@
-#name: Custolint
+name: On Feature Branch
+
 on:
-  push:
-    #branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    # Optionally, restrict to PRs targeting specific branches:
+    # branches:
+    #   - main
+    #   - develop
+
 
 env:
   PYTHON_VERSION: 3.13.2
