@@ -23,7 +23,7 @@ def _clean_previous_alarms_logs(alarm_log: Path) -> None:
 
 
 # FIXME: reduce number os arguments with data structure pylint: disable=fixme
-# pylint: disable=too-many-arguments
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def catch_alarms(subject: str, log: logging.Logger, alarm_log: Path,
                  gmail_from: str, gmail_to: str, gmail_password: str) -> Callable[..., Any]:
     """
@@ -73,3 +73,4 @@ def catch_alarms(subject: str, log: logging.Logger, alarm_log: Path,
 
         return wrapper
     return actual_decorator
+# pylint: enable=too-many-arguments,too-many-positional-arguments
