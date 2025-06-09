@@ -6,17 +6,17 @@ update_pip_and_wheel:
 	pip install -U pip wheel
 
 install_prod:
-	pip install .'[ui]'
+	pip install  '.[ui]'
 
 install_dev:
-	pip install .'[dev,ui]'
+	pip install -e '.[dev,ui]'
 
 wheel:
 	pip install build twine
 	python -m build . --wheel
 
 isort:
-	isort src tests $$ARGS
+	isort src tests $${ARGS:-}
 
 pylint:
 	pylint src tests
@@ -29,7 +29,6 @@ coverage_report:
 
 coverage_report_html:
 	coverage html
-
 
 coverage: coverage_run coverage_report
 
