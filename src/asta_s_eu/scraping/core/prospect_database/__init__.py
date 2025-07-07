@@ -1,5 +1,4 @@
-from typing import (Any, Callable, Dict, Iterable, List, Optional, Sequence,
-                    TypedDict, cast)
+from typing import Any, Callable, Iterable, Optional, Sequence, TypedDict, cast
 
 import abc
 import datetime
@@ -69,7 +68,7 @@ class Prospect:  # pylint: disable=too-many-instance-attributes
     Prospect object,
     can be compared and hashed in a set comparing with just a raw representation as a dict.
     """
-    def __init__(self, prospect: Optional[Dict[str, Any]] = None, **kwargs: Any) -> None:
+    def __init__(self, prospect: Optional[dict[str, Any]] = None, **kwargs: Any) -> None:
         self.location: str
         self.product_id: str
         self.price: Optional[str] = None
@@ -174,7 +173,7 @@ class Prospect:  # pylint: disable=too-many-instance-attributes
         """
         Print List of Object as code sample to be used as fixture for test assertions.
         """
-        out: List[str] = []
+        out: list[str] = []
         for prospect in sorted(prospect_list):
             out.extend(prospect.to_print())
 
@@ -210,7 +209,7 @@ class LastRun(metaclass=abc.ABCMeta):
         """
         Check if passed on any host
         """
-        successful = cast(Dict[str, str], self._data.get('successful'))
+        successful = cast(dict[str, str], self._data.get('successful'))
         if not successful:
             return False
 
@@ -229,7 +228,7 @@ class LastRun(metaclass=abc.ABCMeta):
 
     def failed_less_than_24hour_ago_on_current_host(self) -> bool:
         """
-        Check if failed on current host
+        Check if failed on the current host
         """
         failed = self._data.get('failed')
         if not failed:
@@ -267,10 +266,10 @@ class ProspectDatabase(metaclass=abc.ABCMeta):
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=unused-argument
         LOG.info("Capture all prospects")
 
-    def __contains__(self, prospect: Dict[str, str]) -> bool:
+    def __contains__(self, prospect: dict[str, str]) -> bool:
         raise NotImplementedError
 
-    def write(self, prospect: Dict[str, str]) -> None:
+    def write(self, prospect: dict[str, str]) -> None:
         """Upsert and item into database"""
         raise NotImplementedError
 
@@ -281,14 +280,14 @@ class ProspectDatabase(metaclass=abc.ABCMeta):
         """
         raise NotImplementedError
 
-    def capture(self, prospects: Sequence[Dict[str, Any]]) -> Sequence[Dict[str, Any]]:
+    def capture(self, prospects: Sequence[dict[str, Any]]) -> Sequence[dict[str, Any]]:
         """
         Save new items into database out of new prospects
-        :return: freshly inserted new prospects from current session
+        :return: freshly inserted new prospects from the current session
         """
         new_prospects = []
 
-        def _log_function(index: int, _item: Dict[str, Any], size: int) -> None:
+        def _log_function(index: int, _item: dict[str, Any], size: int) -> None:
             LOG.info('Precessed %r/%r %r%% prospects', index, size, round(index/size * 100))
 
         for prospect in progress_bar_log(prospects, _log_function):  # type: ignore[arg-type]

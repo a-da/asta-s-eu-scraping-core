@@ -1,6 +1,6 @@
 [project]
     name = "asta-s-eu-scraping-core"
-    version = "0.0.5"
+    version = "0.0.6"
     authors = [
         {name = "Andrei Danciuc", email = "python.ciur@gmail.com"},
     ]
@@ -24,128 +24,132 @@
         # keep lines sorted
         "ciur[dev]==0.2.3"
     ]
+    otel = [
+        # keep lines sorted
+        "opentelemetry-distro==0.55b1",
+        "opentelemetry-exporter-otlp==1.34.1",
+    ]
 
 
 [tool.setuptools.packages.find]
-where = ["src/"]
-include = [
-    "asta_s_eu.scraping.core",
-    "asta_s_eu.scraping.core.prospect_database",
-    "asta_s_eu.scraping.core.selenium",
-]
+    where = ["src/"]
+    include = [
+        "asta_s_eu.scraping.core",
+        "asta_s_eu.scraping.core.prospect_database",
+        "asta_s_eu.scraping.core.selenium",
+    ]
 
 [tool.setuptools.package-data]
-"asta_s_eu.scraping.core" = ["*.yaml", "prospects.jinja2.html", "ada-automation"]
+    "asta_s_eu.scraping.core" = ["*.yaml", "prospects.jinja2.html", "ada-automation"]
 
 
 [tool.isort]
-known_typing = "typing"
-known_localfolder = "src,asta_s_eu"
-sections = ["FUTURE", "TYPING", "STDLIB", "FIRSTPARTY", "THIRDPARTY", "LOCALFOLDER"]
+    known_typing = "typing"
+    known_localfolder = "src,asta_s_eu"
+    sections = ["FUTURE", "TYPING", "STDLIB", "FIRSTPARTY", "THIRDPARTY", "LOCALFOLDER"]
 
 [tool.coverage.run]
-branch = true
-data_file = ".coverage"
-source = [
-    "asta_s_eu.scraping.core"
-]
+    branch = true
+    data_file = ".coverage"
+    source = [
+        "asta_s_eu.scraping.core"
+    ]
 
 [tool.coverage.report]
-fail_under = 72
-show_missing = true
-exclude_also = [
-    "pragma: no cover",
-    "pragma: deprecated",
-    "def __repr__",
-    "if self.debug:",
-    "if settings.DEBUG",
-    "raise AssertionError",
-    "raise NotImplementedError",
-    "if 0:",
-    "if __name__ == .__main__.:",
-    "class .*\\bProtocol\\):",
-    "@(abc\\.)?abstractmethod"
-]
-omit = ["*/asta_s_eu/scraping/core/log.py"]
+    fail_under = 73
+    show_missing = true
+    exclude_also = [
+        "pragma: no cover",
+        "pragma: deprecated",
+        "def __repr__",
+        "if self.debug:",
+        "if settings.DEBUG",
+        "raise AssertionError",
+        "raise NotImplementedError",
+        "if 0:",
+        "if __name__ == .__main__.:",
+        "class .*\\bProtocol\\):",
+        "@(abc\\.)?abstractmethod"
+    ]
+    omit = ["*/asta_s_eu/scraping/core/log.py"]
 
 [tool.pytest.ini_options]
-addopts = "--strict-markers -v"
-testpaths = "tests"
-filterwarnings = [
-    "error",
-    "ignore:.*'urllib3.secure.' extra is deprecated and will be removed in a future release of urllib3 2.x.",
-    "ignore:.*'urllib3.contrib.pyopenssl' module is deprecated and will be removed in a future release of urllib3 2.x.",
-    "ignore:.*is deprecated and will be removed in urllib3 v2.1.0. Instead use HTTPResponse.headers.get",
-    "ignore:.*'cgi' is deprecated and slated for removal in Python 3.13",
-    "ignore:.*datetime.datetime.utcfromtimestamp.. is deprecated and scheduled for removal in a future version."
-]
-log_level = "INFO"
+    addopts = "--strict-markers -v"
+    testpaths = "tests"
+    filterwarnings = [
+        "error",
+        "ignore:.*'urllib3.secure.' extra is deprecated and will be removed in a future release of urllib3 2.x.",
+        "ignore:.*'urllib3.contrib.pyopenssl' module is deprecated and will be removed in a future release of urllib3 2.x.",
+        "ignore:.*is deprecated and will be removed in urllib3 v2.1.0. Instead use HTTPResponse.headers.get",
+        "ignore:.*'cgi' is deprecated and slated for removal in Python 3.13",
+        "ignore:.*datetime.datetime.utcfromtimestamp.. is deprecated and scheduled for removal in a future version."
+    ]
+    log_level = "INFO"
 
 [tool.mypy]
-python_version = "3.12"
-strict = true
-show_error_codes = true
+    python_version = "3.12"
+    strict = true
+    show_error_codes = true
 
 [[tool.mypy.overrides]]
-module = "selenium.*"
-ignore_missing_imports = true
+    module = "selenium.*"
+    ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "yaml.*"
-ignore_missing_imports = true
+    module = "yaml.*"
+    ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "boto3.*"
-ignore_missing_imports = true
+    module = "boto3.*"
+    ignore_missing_imports = true
 
 [tool.pylint.BASIC]
-# Good variable names which should always be accepted, separated by a comma.
-good-names= [
-    'i',
-    'j',
-    'k',
-    'ex',
-    'Run',
-    '_',
-    'by',
-    'db',
-    'to'
-]
+    # Good variable names which should always be accepted, separated by a comma.
+    good-names= [
+        'i',
+        'j',
+        'k',
+        'ex',
+        'Run',
+        '_',
+        'by',
+        'db',
+        'to'
+    ]
 
 
 [tool.pylint.'MESSAGES CONTROL']
-# Disable the message, report, category or checker with the given id(s). You
-# can either give multiple identifiers separated by comma (,) or put this
-# option multiple times (only on the command line, not in the configuration
-# file where it should appear only once). You can also use "--disable=all" to
-# disable everything first and then reenable specific checks. For example, if
-# you want to run only the similarities checker, you can use "--disable=all
-# --enable=similarities". If you want to run only the classes checker, but have
-# no Warning level messages displayed, use "--disable=all --enable=classes
-# --disable=W".
-disable = [
-    'raw-checker-failed',
-    'bad-inline-option',
-    'locally-disabled',
-    'file-ignored',
-    'suppressed-message',
-    'useless-suppression',
-    'deprecated-pragma',
-    'use-symbolic-message-instead',
-    'missing-module-docstring',
-    'import-error',
-]
+    # Disable the message, report, category or checker with the given id(s). You
+    # can either give multiple identifiers separated by comma (,) or put this
+    # option multiple times (only on the command line, not in the configuration
+    # file where it should appear only once). You can also use "--disable=all" to
+    # disable everything first and then reenable specific checks. For example, if
+    # you want to run only the similarities checker, you can use "--disable=all
+    # --enable=similarities". If you want to run only the classes checker, but have
+    # no Warning level messages displayed, use "--disable=all --enable=classes
+    # --disable=W".
+    disable = [
+        'raw-checker-failed',
+        'bad-inline-option',
+        'locally-disabled',
+        'file-ignored',
+        'suppressed-message',
+        'useless-suppression',
+        'deprecated-pragma',
+        'use-symbolic-message-instead',
+        'missing-module-docstring',
+        'import-error',
+    ]
 
 
 [tool.pylint.MISCELLANEOUS]
-# List of note tags to take in consideration, separated by a comma.
-notes = [
-    'FIXME',
-    'XXX',
-    # TODO
-]
+    # List of note tags to take in consideration, separated by a comma.
+    notes = [
+        'FIXME',
+        'XXX',
+        # TODO
+    ]
 
 [tool.pylint.FORMAT]
-
-# Regexp for a line that is allowed to be longer than the limit.
-ignore-long-lines = '^\s*(# )?<?https?://\S+>?|.*https://.*$|in self._driver.title|//div|# type: ignore\[|# pragma:'
+    # Regexp for a line that is allowed to be longer than the limit.
+    ignore-long-lines = '^\s*(# )?<?https?://\S+>?|.*https://.*$|in self._driver.title|//div|# type: ignore\[|# pragma:'

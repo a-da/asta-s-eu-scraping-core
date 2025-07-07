@@ -9,7 +9,7 @@ install_prod:
 	pip install  '.[ui]'
 
 install_dev:
-	pip install -e '.[dev,ui]'
+	pip install -e '.[dev,ui,otel]'
 
 wheel:
 	pip install build twine
