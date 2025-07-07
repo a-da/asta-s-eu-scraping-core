@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, cast
+from typing import Any, Optional, cast
 
 import datetime
 
@@ -19,7 +19,7 @@ class DynamoDBLastRun(LastRun):
         self._db = table
         self._key = key
 
-        key_: Dict[str, str] = {
+        key_: dict[str, str] = {
             'k': self._key,
             's': 'x',
         }
@@ -58,7 +58,7 @@ class DynamoDB(ProspectDatabase):
         super().__init__()
         self._db = (dynamodb_resource or boto3.resource('dynamodb')).Table('scraper-bot')
 
-    def __contains__(self, prospect: Dict[str, str]) -> bool:
+    def __contains__(self, prospect: dict[str, str]) -> bool:
         response = self._db.get_item(
             Key={
                 'k': str(prospect['product_id']),
@@ -68,7 +68,7 @@ class DynamoDB(ProspectDatabase):
 
         return 'Item' in response
 
-    def write(self, prospect: Dict[str, str]) -> None:
+    def write(self, prospect: dict[str, str]) -> None:
         """Save product"""
         prospect['k'] = str(prospect['product_id'])
         prospect['s'] = 'x'

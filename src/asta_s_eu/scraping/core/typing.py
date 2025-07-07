@@ -1,3 +1,3 @@
-from typing import Any, Dict, Sequence
+from typing import Any, Sequence
 
-Prospects = Sequence[Dict[str, Any]]
+Prospects = Sequence[dict[str, Any]]
